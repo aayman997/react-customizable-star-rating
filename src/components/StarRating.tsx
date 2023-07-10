@@ -12,13 +12,13 @@ const startContainerStyle = {
 };
 
 type Props = {
-	maxRating: number
-	color: string
-	size: number
-	borderColor: string
-	className: string
-	messages: []
-	defaultRating: number
+	maxRating?: number
+	color?: string
+	size?: number
+	borderColor?: string
+	className?: string
+	messages?: []
+	defaultRating?: number
 	onSetRating: Function
 }
 
