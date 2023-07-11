@@ -6,6 +6,9 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
   "author": "Ahmed Ayman",
+  "engines": {
+    "node": "18.16.0"
+  },
   "keywords": [
     "react",
     "rating",
