@@ -11,7 +11,7 @@ const startContainerStyle = {
 	gap    : "4px"
 };
 
-type Props = {
+type StarRatingProps = {
 	maxRating?: number
 	color?: string
 	size?: number
@@ -19,6 +19,7 @@ type Props = {
 	className?: string
 	messages?: []
 	defaultRating?: number
+	viewOnly?: boolean
 	onSetRating: React.Dispatch<React.SetStateAction<number>>
 }
 
@@ -31,8 +32,9 @@ export const StarRating = (
 		className = "",
 		messages = [],
 		defaultRating = 0,
+		viewOnly = false,
 		onSetRating
-	}: Props
+	}: StarRatingProps
 ) => {
 	const [rating, setRating] = useState<number>(defaultRating);
 	const [tempRating, setTempRating] = useState<number>(0);
@@ -72,24 +74,48 @@ export const StarRating = (
 		}
 	};
 
+	const isFull = (i: number): boolean => {
+		if (tempRating) {
+			return tempRating >= i + 1;
+		} else {
+			return rating >= i + 1;
+		}
+	};
+
 	return (
 		<div style={containerStyle} className={className}>
 			<div style={startContainerStyle}>
-				{Array.from({length: maxRating}, (_, i) => (
-					<Star
-						key={i}
-						index={i}
-						full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
-						half={isHalf(i)}
-						onRate={setRating}
-						onHoverIn={setTempRating}
-						onHoverOut={() => setTempRating(0)}
-						color={color}
-						size={size}
-						borderColor={borderColor}
-						onSetRating={onSetRating}
-					/>
-				))}
+				{Array.from({length: maxRating}, (_, i) => {
+					if (viewOnly) {
+						return (
+							<Star
+								key={i}
+								index={i}
+								full={isFull(i)}
+								half={isHalf(i)}
+								color={color}
+								size={size}
+								borderColor={borderColor}
+								viewOnly={viewOnly}
+							/>
+						);
+					}
+					return (
+						<Star
+							key={i}
+							index={i}
+							full={isFull(i)}
+							half={isHalf(i)}
+							onRate={setRating}
+							onHoverIn={setTempRating}
+							onHoverOut={() => setTempRating(0)}
+							color={color}
+							size={size}
+							borderColor={borderColor}
+							onSetRating={onSetRating}
+						/>
+					);
+				})}
 			</div>
 			<div style={textStyle}>{properMessage()}</div>
 		</div>
