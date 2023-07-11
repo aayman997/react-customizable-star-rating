@@ -1,18 +1,19 @@
 import React, {MouseEventHandler} from "react";
 
-type Props = {
+type StarProps = {
 	index: number
-	onRate: React.Dispatch<React.SetStateAction<number>>
+	onRate?: React.Dispatch<React.SetStateAction<number>>
 	full: boolean
 	half: boolean
-	onHoverIn: React.Dispatch<React.SetStateAction<number>>
-	onHoverOut: MouseEventHandler<HTMLSpanElement>
+	onHoverIn?: React.Dispatch<React.SetStateAction<number>>
+	onHoverOut?: MouseEventHandler<HTMLSpanElement>
 	size: number
 	color: string
 	borderColor: string
-	onSetRating: React.Dispatch<React.SetStateAction<number>>
+	viewOnly?: boolean
+	onSetRating?: React.Dispatch<React.SetStateAction<number>>
 }
-export const Star = ({index, onRate, full, half, onHoverIn, onHoverOut, size, color, borderColor, onSetRating}: Props) => {
+export const Star = ({index, onRate, full, half, onHoverIn, onHoverOut, size, color, borderColor, onSetRating, viewOnly}: StarProps) => {
 	const starStyle: React.CSSProperties = {
 		width  : `${size}px`,
 		height : `${size}px`,
@@ -25,10 +26,12 @@ export const Star = ({index, onRate, full, half, onHoverIn, onHoverOut, size, co
 		const pixelsFromLeft = e.clientX - rect.left;
 		const pixelsFromRight = rect.right - e.clientX;
 		const halfStar = pixelsFromRight > pixelsFromLeft;
-		if (temp) {
+		if (temp && onHoverIn) {
 			return onHoverIn(halfStar ? index + 0.5 : index + 1);
 		}
-		onRate(halfStar ? index + 0.5 : index + 1);
+		if (onRate) {
+			onRate(halfStar ? index + 0.5 : index + 1);
+		}
 		if (onSetRating) {
 			onSetRating(halfStar ? index + 0.5 : index + 1);
 		}
@@ -81,10 +84,17 @@ export const Star = ({index, onRate, full, half, onHoverIn, onHoverOut, size, co
 			</svg>
 		);
 	};
-
+	if (viewOnly) {
+		return (
+			<span style={{...starStyle, cursor: "auto"}}>
+				{renderSuitableStar()}
+			</span>
+		);
+	}
 	return (
 		<span
-			role="button" style={starStyle}
+			role="button"
+			style={starStyle}
 			onClick={(e) => handleRating(e)}
 			onMouseMove={(e) => handleRating(e, true)}
 			onMouseLeave={onHoverOut}
