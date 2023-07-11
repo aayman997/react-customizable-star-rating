@@ -5,7 +5,10 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
-  "author": "Ahmed Ayman",
+  "author": {
+    "name": "Ahmed Ayman",
+    "email": "ahmed1997164@gmail.com"
+  },
   "engines": {
     "node": "18.16.0"
   },
