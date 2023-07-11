@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Star} from "./Star";
 
-const containerStyle = {
+export const containerStyle: React.CSSProperties = {
 	display   : "flex",
 	alignItems: "center",
 	gap       : "16px"
@@ -19,19 +19,21 @@ type Props = {
 	className?: string
 	messages?: []
 	defaultRating?: number
-	onSetRating: Function
+	onSetRating: React.Dispatch<React.SetStateAction<number>>
 }
 
-export const StarRating = ({
-	                           maxRating = 5,
-	                           color = "#FCC419",
-	                           size = 48,
-	                           borderColor = color,
-	                           className = "",
-	                           messages = [],
-	                           defaultRating = 0,
-	                           onSetRating
-                           }: Props) => {
+export const StarRating = (
+	{
+		maxRating = 5,
+		color = "#FCC419",
+		size = 48,
+		borderColor = color,
+		className = "",
+		messages = [],
+		defaultRating = 0,
+		onSetRating
+	}: Props
+) => {
 	const [rating, setRating] = useState<number>(defaultRating);
 	const [tempRating, setTempRating] = useState<number>(0);
 
@@ -42,16 +44,43 @@ export const StarRating = ({
 		fontSize  : `${size / 1.5}px`
 	};
 
+	const properMessage = (): number => {
+		if (messages.length === maxRating) {
+			return messages[tempRating ? Math.round(tempRating - 1) : rating - 1];
+		} else {
+			return tempRating || rating;
+		}
+	};
+
+	const isHalf = (i: number): boolean => {
+		if (tempRating) {
+			if (tempRating === 0.5 && i === 0) {
+				return true;
+			}
+			if (i !== 0 && tempRating !== 0.5) {
+				return tempRating % i === 0.5;
+			}
+			return false;
+		} else {
+			if (rating === 0.5 && i === 0) {
+				return true;
+			}
+			if (i !== 0 && rating !== 0.5) {
+				return rating % i === 0.5;
+			}
+			return false;
+		}
+	};
+
 	return (
 		<div style={containerStyle} className={className}>
 			<div style={startContainerStyle}>
 				{Array.from({length: maxRating}, (_, i) => (
 					<Star
-						key={i} index={i}
+						key={i}
+						index={i}
 						full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
-						half={tempRating
-						      ? ((tempRating === 0.5 && i === 0) ? true : (i !== 0 && tempRating !== 0.5) ? tempRating % i === 0.5 : false)
-						      : ((rating === 0.5 && i === 0) ? true : (i !== 0 && rating !== 0.5) ? rating % i === 0.5 : false)}
+						half={isHalf(i)}
 						onRate={setRating}
 						onHoverIn={setTempRating}
 						onHoverOut={() => setTempRating(0)}
@@ -62,14 +91,7 @@ export const StarRating = ({
 					/>
 				))}
 			</div>
-			<div style={textStyle}>{
-				messages.length === maxRating
-				? messages[tempRating ? Math.round(tempRating - 1) : rating - 1]
-				: tempRating || rating || ""}</div>
+			<div style={textStyle}>{properMessage()}</div>
 		</div>
 	);
 };
-
-export default StarRating;
-
-

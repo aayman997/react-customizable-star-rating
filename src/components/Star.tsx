@@ -2,26 +2,26 @@ import React, {MouseEventHandler} from "react";
 
 type Props = {
 	index: number
-	onRate: Function
+	onRate: React.Dispatch<React.SetStateAction<number>>
 	full: boolean
 	half: boolean
-	onHoverIn: Function
-	onHoverOut: Function
+	onHoverIn: React.Dispatch<React.SetStateAction<number>>
+	onHoverOut: MouseEventHandler<HTMLSpanElement>
 	size: number
 	color: string
 	borderColor: string
-	onSetRating: Function
+	onSetRating: React.Dispatch<React.SetStateAction<number>>
 }
 export const Star = ({index, onRate, full, half, onHoverIn, onHoverOut, size, color, borderColor, onSetRating}: Props) => {
-	const starStyle = {
+	const starStyle: React.CSSProperties = {
 		width  : `${size}px`,
 		height : `${size}px`,
 		display: "block",
 		cursor : "pointer"
 	};
+
 	const handleRating = (e: React.MouseEvent<HTMLElement>, temp = false) => {
-		const button = e.target as HTMLInputElement;
-		const rect = button.getBoundingClientRect();
+		const rect = (e.target as HTMLElement).getBoundingClientRect();
 		const pixelsFromLeft = e.clientX - rect.left;
 		const pixelsFromRight = rect.right - e.clientX;
 		const halfStar = pixelsFromRight > pixelsFromLeft;
@@ -87,7 +87,7 @@ export const Star = ({index, onRate, full, half, onHoverIn, onHoverOut, size, co
 			role="button" style={starStyle}
 			onClick={(e) => handleRating(e)}
 			onMouseMove={(e) => handleRating(e, true)}
-			onMouseLeave={onHoverOut as MouseEventHandler<HTMLSpanElement>}
+			onMouseLeave={onHoverOut}
 		>
             {renderSuitableStar()}
         </span>

@@ -10,6 +10,7 @@
     "module": "esnext",
     "lib": [
       "dom",
+      "dom.iterable",
       "esnext"
     ],
     "importHelpers": true,
@@ -26,6 +27,14 @@
     "jsx": "react",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "target": "es5",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "downlevelIteration": true,
+    "noEmit": true
   }
 }
