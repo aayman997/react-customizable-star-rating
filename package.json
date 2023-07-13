@@ -21,7 +21,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aayman997/react-customizable-star-rating.git"
+    "url": "https://github.com/aayman997/react-customizable-star-rating.git"
   },
   "bugs": {
     "url": "https://github.com/aayman997/react-customizable-star-rating/issues",
