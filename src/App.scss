@@ -1,0 +1,66 @@
+@font-face {
+	font-family : Oswald;
+	src         : url("../public/fonts/Oswald-VariableFont_wght.ttf") format("truetype"),
+	local(Oswald);
+	font-weight : 200 700;
+}
+
+body {
+	background  : #202020;
+	color       : #F2F2F2;
+	font-family : Oswald, sans-serif;
+
+	.app {
+		display         : flex;
+		height          : 100vh;
+		width           : 100vw;
+		align-items     : start;
+		justify-content : center;
+
+		.wrapper {
+			display   : flex;
+			flex-flow : row nowrap;
+			flex      : 1 0 100%;
+			padding   : 30px;
+			gap       : 30px;
+			height    : 100%;
+
+			.documentation {
+				flex : 1 1 100%;
+			}
+
+			aside {
+				position      : fixed;
+				top           : 30px;
+				right         : 30px;
+				bottom        : 30px;
+				background    : #F2F2F2;
+				color         : #202020;
+				border-radius : 4px;
+				padding       : 15px;
+				flex          : 0 0 500px;
+
+				h2 {
+					margin-bottom : 30px;
+					position      : relative;
+
+					&:after {
+						width         : 100%;
+						background    : #202020;
+						height        : 2px;
+						content       : "";
+						display       : inline-block;
+						position      : absolute;
+						bottom        : -15px;
+						left          : 0;
+						border-radius : 50px;
+					}
+				}
+
+				.star-rating {
+					width : 350px;
+				}
+			}
+		}
+	}
+}
