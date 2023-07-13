@@ -1,6 +1,6 @@
 {
   "name": "react-customizable-star-rating",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "description": "React component to rate and view rating",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -21,7 +21,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aayman997/react-customizable-star-rating.git"
+    "url": "git+https://github.com/aayman997/react-customizable-star-rating.git"
   },
   "bugs": {
     "url": "https://github.com/aayman997/react-customizable-star-rating/issues",
