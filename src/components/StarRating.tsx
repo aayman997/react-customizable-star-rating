@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Star} from "./Star";
 
-export const containerStyle: React.CSSProperties = {
+const containerStyle: React.CSSProperties = {
 	display   : "flex",
 	alignItems: "center",
 	gap       : "16px"
@@ -19,9 +19,9 @@ type StarRatingProps = {
 	className?: string
 	messages?: []
 	defaultRating?: number
-	viewOnly?: boolean
-	onSetRating: React.Dispatch<React.SetStateAction<number>>
-}
+	viewOnly?: boolean;
+	onSetRating?: React.Dispatch<React.SetStateAction<number>>;
+} & ({ viewOnly: true } | { viewOnly?: false; onSetRating: React.Dispatch<React.SetStateAction<number>> });
 
 export const StarRating = (
 	{
@@ -36,8 +36,8 @@ export const StarRating = (
 		onSetRating
 	}: StarRatingProps
 ) => {
-	const [rating, setRating] = useState<number>(defaultRating);
-	const [tempRating, setTempRating] = useState<number>(0);
+	const [rating, setRating] = useState<number>(() => defaultRating);
+	const [tempRating, setTempRating] = useState<number>(() => 0);
 
 	const textStyle = {
 		lineHeight: "1",
@@ -112,7 +112,7 @@ export const StarRating = (
 							color={color}
 							size={size}
 							borderColor={borderColor}
-							onSetRating={onSetRating}
+							onSetRating={onSetRating as React.Dispatch<React.SetStateAction<number>>}
 						/>
 					);
 				})}

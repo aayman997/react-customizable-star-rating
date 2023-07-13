@@ -2,7 +2,6 @@ import React, {MouseEventHandler} from "react";
 
 type StarProps = {
 	index: number
-	onRate?: React.Dispatch<React.SetStateAction<number>>
 	full: boolean
 	half: boolean
 	onHoverIn?: React.Dispatch<React.SetStateAction<number>>
@@ -10,9 +9,15 @@ type StarProps = {
 	size: number
 	color: string
 	borderColor: string
-	viewOnly?: boolean
-	onSetRating?: React.Dispatch<React.SetStateAction<number>>
-}
+	viewOnly?: boolean;
+	onRate?: React.Dispatch<React.SetStateAction<number>>
+	onSetRating?: React.Dispatch<React.SetStateAction<number>>;
+} & ({ viewOnly: true; } | {
+	viewOnly?: false;
+	onSetRating: React.Dispatch<React.SetStateAction<number>>;
+	onRate: React.Dispatch<React.SetStateAction<number>>
+});
+
 export const Star = ({index, onRate, full, half, onHoverIn, onHoverOut, size, color, borderColor, onSetRating, viewOnly}: StarProps) => {
 	const starStyle: React.CSSProperties = {
 		width  : `${size}px`,
