@@ -10,7 +10,7 @@
     "email": "ahmed1997164@gmail.com"
   },
   "engines": {
-    "node": "18.16.0"
+    "node": ">=18.16.0"
   },
   "keywords": [
     "react",
