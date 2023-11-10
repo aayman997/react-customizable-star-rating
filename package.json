@@ -30,8 +30,8 @@
   "scripts": {
     "start": "vite",
     "lint": "eslint \"{**/*,*}.{js,ts,jsx,tsx}\"",
-    "test": "vitest",
-    "test:local": "vitest --ui",
+    "test": "vitest --watch=false",
+    "test:local": "vitest run --coverage",
     "build": "npm run build:esm && npm run build:cjs",
     "build:esm": "tsc",
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
