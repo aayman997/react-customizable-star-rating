@@ -1,14 +1,14 @@
-import React, {useState} from "react";
-import {Star} from "./Star";
+import React, { useState, SetStateAction, Dispatch, CSSProperties } from 'react';
+import { Star } from './Star';
 
-const containerStyle: React.CSSProperties = {
-	display   : "flex",
-	alignItems: "center",
-	gap       : "16px"
+const containerStyle: CSSProperties = {
+	display: 'flex',
+	alignItems: 'center',
+	gap: '16px',
 };
 const startContainerStyle = {
-	display: "flex",
-	gap    : "4px"
+	display: 'flex',
+	gap: '4px',
 };
 
 type StarRatingProps = {
@@ -19,31 +19,29 @@ type StarRatingProps = {
 	className?: string
 	messages?: []
 	defaultRating?: number
-	viewOnly?: boolean;
-	onSetRating?: React.Dispatch<React.SetStateAction<number>>;
-} & ({ viewOnly: true } | { viewOnly?: false; onSetRating: React.Dispatch<React.SetStateAction<number>> });
+	onSetRating?: Dispatch<SetStateAction<number>>;
+} & ({ defaultRating: number } | { defaultRating?: false; onSetRating: Dispatch<SetStateAction<number>> });
 
 export const StarRating = (
 	{
 		maxRating = 5,
-		color = "#FCC419",
+		color = '#FCC419',
 		size = 48,
 		borderColor = color,
-		className = "",
+		className = '',
 		messages = [],
 		defaultRating = 0,
-		viewOnly = false,
-		onSetRating
-	}: StarRatingProps
+		onSetRating,
+	}: StarRatingProps,
 ) => {
 	const [rating, setRating] = useState<number>(() => defaultRating);
 	const [tempRating, setTempRating] = useState<number>(() => 0);
 
 	const textStyle = {
-		lineHeight: "1",
-		margin    : "0",
+		lineHeight: '1',
+		margin: '0',
 		color,
-		fontSize  : `${size / 1.5}px`
+		fontSize: `${size / 1.5}px`,
 	};
 
 	const properMessage = (): number => {
@@ -85,8 +83,8 @@ export const StarRating = (
 	return (
 		<div style={containerStyle} className={className}>
 			<div style={startContainerStyle}>
-				{Array.from({length: maxRating}, (_, i) => {
-					if (viewOnly) {
+				{Array.from({ length: maxRating }, (_, i) => {
+					if (!onSetRating) {
 						return (
 							<Star
 								key={i}
@@ -96,7 +94,7 @@ export const StarRating = (
 								color={color}
 								size={size}
 								borderColor={borderColor}
-								viewOnly={viewOnly}
+								viewOnly={true}
 							/>
 						);
 					}
@@ -112,7 +110,7 @@ export const StarRating = (
 							color={color}
 							size={size}
 							borderColor={borderColor}
-							onSetRating={onSetRating as React.Dispatch<React.SetStateAction<number>>}
+							onSetRating={onSetRating}
 						/>
 					);
 				})}
