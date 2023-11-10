@@ -1,7 +1,7 @@
-import React, { useState, SetStateAction, Dispatch, CSSProperties } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Star } from './Star';
 
-const containerStyle: CSSProperties = {
+const containerStyle: React.CSSProperties = {
 	display: 'flex',
 	alignItems: 'center',
 	gap: '16px',
@@ -19,8 +19,8 @@ type StarRatingProps = {
 	className?: string
 	messages?: []
 	defaultRating?: number
-	onSetRating?: Dispatch<SetStateAction<number>>;
-} & ({ defaultRating: number } | { defaultRating?: false; onSetRating: Dispatch<SetStateAction<number>> });
+	onSetRating?: React.Dispatch<React.SetStateAction<number>>;
+} & ({ defaultRating: number } | { defaultRating?: false; onSetRating: React.Dispatch<React.SetStateAction<number>> });
 
 export const StarRating = (
 	{
@@ -36,6 +36,12 @@ export const StarRating = (
 ) => {
 	const [rating, setRating] = useState<number>(() => defaultRating);
 	const [tempRating, setTempRating] = useState<number>(() => 0);
+	const [dir, setDir] = useState<'ltr' | 'rtl'>('ltr');
+
+	useEffect(() => {
+		const dir = document.documentElement.dir as 'ltr' | 'rtl' || 'ltr';
+		setDir(() => dir);
+	}, [dir]);
 
 	const textStyle = {
 		lineHeight: '1',
@@ -95,6 +101,7 @@ export const StarRating = (
 								size={size}
 								borderColor={borderColor}
 								viewOnly={true}
+								dir={dir}
 							/>
 						);
 					}
@@ -111,6 +118,7 @@ export const StarRating = (
 							size={size}
 							borderColor={borderColor}
 							onSetRating={onSetRating}
+							dir={dir}
 						/>
 					);
 				})}

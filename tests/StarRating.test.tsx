@@ -25,7 +25,7 @@ describe('StarRating', () => {
 	// Clicks on a star and sets the rating
 	test('should set the rating when a star is clicked', () => {
 		const { container } = render(<Wrapper />);
-		const stars = container.querySelectorAll('svg');
+		const stars = container.querySelectorAll('button');
 		fireEvent.click(stars[2]);
 		expect(container).toHaveTextContent('3');
 	});
@@ -39,7 +39,7 @@ describe('StarRating', () => {
 	// Clicks on the last star and sets the rating to the maximum rating
 	test('should set the rating to the maximum rating when the last star is clicked', () => {
 		const { container } = render(<Wrapper />);
-		const stars = container.querySelectorAll('svg');
+		const stars = container.querySelectorAll('button');
 		fireEvent.click(stars[4]);
 		expect(container).toHaveTextContent('5');
 	});

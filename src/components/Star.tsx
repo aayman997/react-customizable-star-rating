@@ -1,24 +1,25 @@
-import React, { MouseEventHandler, Dispatch, SetStateAction } from 'react';
+import React, { MouseEventHandler } from 'react';
 
 type StarProps = {
 	index: number
 	full: boolean
 	half: boolean
-	onHoverIn?: Dispatch<SetStateAction<number>>
+	onHoverIn?: React.Dispatch<React.SetStateAction<number>>
 	onHoverOut?: MouseEventHandler<HTMLSpanElement>
 	size: number
 	color: string
 	borderColor: string
 	viewOnly?: boolean;
-	onRate?: Dispatch<SetStateAction<number>>
-	onSetRating?: Dispatch<SetStateAction<number>>;
+	onRate?: React.Dispatch<React.SetStateAction<number>>
+	onSetRating?: React.Dispatch<React.SetStateAction<number>>;
+	dir?: 'ltr' | 'rtl';
 } & ({ viewOnly: true; } | {
 	viewOnly?: false;
-	onSetRating: Dispatch<SetStateAction<number>>;
-	onRate: Dispatch<SetStateAction<number>>
+	onSetRating: React.Dispatch<React.SetStateAction<number>>;
+	onRate: React.Dispatch<React.SetStateAction<number>>
 });
 
-export const Star = ({ index, onRate, full, half, onHoverIn, onHoverOut, size, color, borderColor, onSetRating, viewOnly }: StarProps) => {
+export const Star = ({ index, onRate, full, half, onHoverIn, onHoverOut, size, color, borderColor, onSetRating, viewOnly, dir }: StarProps) => {
 	const starStyle: React.CSSProperties = {
 		width: `${size}px`,
 		height: `${size}px`,
@@ -30,7 +31,14 @@ export const Star = ({ index, onRate, full, half, onHoverIn, onHoverOut, size, c
 		const rect = (e.target as HTMLElement).getBoundingClientRect();
 		const pixelsFromLeft = e.clientX - rect.left;
 		const pixelsFromRight = rect.right - e.clientX;
-		const halfStar = pixelsFromRight > pixelsFromLeft;
+		let halfStar = pixelsFromRight > pixelsFromLeft;
+
+		if (dir === 'rtl') {
+			halfStar = pixelsFromRight < pixelsFromLeft;
+			console.log('dir', dir);
+			console.log('halfStar', halfStar);
+		}
+
 		if (temp && onHoverIn) {
 			return onHoverIn(halfStar ? index + 0.5 : index + 1);
 		}
@@ -63,7 +71,10 @@ export const Star = ({ index, onRate, full, half, onHoverIn, onHoverOut, size, c
 
 		if (half) {
 			return (
-				<svg data-testid="rating" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+				<svg
+					data-testid="rating" style={{ transform: dir === 'rtl' ? 'rotateY(180deg)' : 'rotateY(0)' }} xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 20 20"
+				>
 					<g transform="translate(-1021.982 -806.071)">
 						<path
 							d="M-1972.765,16.115l1.518-4.674a1,1,0,0,0-.364-1.118l-3.976-2.888a1,1,0,0,1,.589-1.81h4.914a1,1,0,0,0,.95-.69l1.519-4.674a.986.986,0,0,1,1.014-.689V14.156a1,1,0,0,0-.652.189l-3.975,2.888a.984.984,0,0,1-.584.2A1,1,0,0,1-1972.765,16.115Z"
@@ -97,14 +108,14 @@ export const Star = ({ index, onRate, full, half, onHoverIn, onHoverOut, size, c
 		);
 	}
 	return (
-		<span
-			role="button"
-			style={starStyle}
+		<button
+			type="button"
+			style={{ ...starStyle, background: 'none', border: 'none' }}
 			onClick={(e) => handleRating(e)}
 			onMouseMove={(e) => handleRating(e, true)}
 			onMouseLeave={onHoverOut}
 		>
-            {renderSuitableStar()}
-        </span>
+			{renderSuitableStar()}
+		</button>
 	);
 };
